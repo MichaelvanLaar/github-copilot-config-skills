@@ -6,16 +6,16 @@ Reusable skills and prompt configurations for AI coding assistants — Claude Co
 
 | File | Purpose |
 |------|---------|
-| `AGENTS.md` | Shared instructions for all AI coding agents   |
-| `.claude/settings.json` | Claude Code permissions, hooks, env vars       |
-| `.claude/skills/cc-init/SKILL.md` | TODO: add description  |
-| `.claude/skills/cc-optimize/SKILL.md` | TODO: add description  |
-| `.claude/skills/cc-update/SKILL.md` | TODO: add description  |
-| `.claude/skills/openspec-apply-change/SKILL.md` | TODO: add description  |
-| `.claude/skills/openspec-archive-change/SKILL.md` | TODO: add description  |
-| `.claude/skills/openspec-explore/SKILL.md` | TODO: add description  |
-| `.claude/skills/openspec-propose/SKILL.md` | TODO: add description  |
-| `.gitignore` | Git ignore patterns                            |
+| `AGENTS.md` | Shared instructions for all AI coding agents    |
+| `.claude/settings.json` | Claude Code permissions, hooks, env vars        |
+| `.claude/skills/cc-init/SKILL.md` | TODO: add description   |
+| `.claude/skills/cc-optimize/SKILL.md` | TODO: add description   |
+| `.claude/skills/cc-update/SKILL.md` | TODO: add description   |
+| `.claude/skills/openspec-apply-change/SKILL.md` | TODO: add description   |
+| `.claude/skills/openspec-archive-change/SKILL.md` | TODO: add description   |
+| `.claude/skills/openspec-explore/SKILL.md` | TODO: add description   |
+| `.claude/skills/openspec-propose/SKILL.md` | TODO: add description   |
+| `.gitignore` | Git ignore patterns                             |
 
 ## Commands
 
