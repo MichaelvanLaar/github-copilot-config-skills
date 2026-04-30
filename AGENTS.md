@@ -9,16 +9,14 @@ No build steps required. This is a content repository of Markdown and YAML files
 ## Structure
 
 - `.claude/skills/` — Claude Code skills (SKILL.md per skill)
-- `.claude/commands/opsx/` — Claude Code slash commands
-- `.github/skills/` — GitHub Copilot skills (SKILL.md per skill)
-- `.github/prompts/` — GitHub Copilot prompt files
+- `.github/prompts/` — GitHub Copilot prompt files (mirror Claude Code skills)
 - `openspec/` — Change workflow management (proposals, specs, tasks)
 
 ## Conventions
 
 - Each skill lives in its own subdirectory with a `SKILL.md` file
-- GitHub Copilot prompts mirror Claude Code commands in purpose and content
-- When editing a skill, update the corresponding file in both `.claude/skills/` and `.github/skills/`
+- GitHub Copilot prompts in `.github/prompts/` mirror Claude Code skills in purpose and content
+- When editing a skill, update the corresponding file in `.github/prompts/`
 - `openspec/config.yaml` holds the project context shown to AI when creating artifacts — keep it current
 
 ## Safety

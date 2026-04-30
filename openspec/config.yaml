@@ -1,20 +1,26 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Repository: github-copilot-config-skills
+  Purpose: Reusable skills and prompt configurations for AI coding assistants (Claude Code + GitHub Copilot)
+  Tech stack: Markdown, YAML, Bash — no build step, no package manager
+  Structure:
+    .claude/skills/  — Claude Code skills (one SKILL.md per skill directory)
+    .github/prompts/ — GitHub Copilot prompt files (mirror the Claude skills)
+    openspec/        — OpenSpec change workflow artifacts
+  Conventions:
+    - Skills use YAML frontmatter + Markdown body in SKILL.md files
+    - GitHub Copilot prompts use a YAML frontmatter description field + Markdown body
+    - When adding or editing a skill, update both the Claude Code version and the GitHub Copilot prompt
+    - Commit messages use Conventional Commits with gitmoji
+  Tooling:
+    - OpenSpec CLI manages change workflow (proposals, specs, tasks)
+    - scripts/sync-config-table.sh keeps the CLAUDE.md Key Config Files table current (runs via pre-commit hook)
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  proposal:
+    - Keep proposals focused on one feature or improvement
+    - State the problem, the proposed solution, and explicit non-goals
+  tasks:
+    - Each task should be completable in a single session
+    - Reference the specific file to create or edit in the task description

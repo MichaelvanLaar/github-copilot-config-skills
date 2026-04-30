@@ -11,7 +11,23 @@
     ],
     "allow": ["Bash(openspec:*)"]
   },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(jq -r '.tool_input.file_path // empty'); case \"$FILE\" in *.md) prettier --write \"$FILE\" 2>/dev/null;; esac; true"
+          }
+        ]
+      }
+    ]
+  },
   "env": {
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50"
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50",
+    "MAX_THINKING_TOKENS": "10000",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "16000",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "haiku"
   }
 }
