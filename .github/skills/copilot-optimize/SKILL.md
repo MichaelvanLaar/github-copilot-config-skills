@@ -24,6 +24,7 @@ Read and catalog everything that exists before suggesting any changes.
 - `.github/workflows/copilot-setup-steps.yml`
 - `AGENTS.md` (project root)
 - `CLAUDE.md` and `GEMINI.md` (project root, if present — for cross-tool consistency)
+- `.github/copilot-learnings.md` (if it exists — accumulated corrections from past skill runs)
 
 If `.github/copilot-instructions.md` does not exist, **stop** — tell the user there is no Copilot configuration to optimize and suggest running `copilot-init` instead.
 
@@ -94,7 +95,25 @@ If `AGENTS.md` exists:
 - **Contradictory rules** → flag as "must fix" and show both conflicting passages
 - **Duplicate content** → flag as "should fix" and suggest which file should be the single source of truth
 
-## Step 7: Generate findings report
+## Step 7: Learnings review
+
+If `.github/copilot-learnings.md` exists:
+
+1. Read all entries and count them.
+2. Classify each entry:
+   - **Recurring pattern** — the same theme appears multiple times, or the correction points to a persistent gap in the configuration (e.g., a missing convention, an incorrect command). Candidate for promotion into `copilot-instructions.md`, a path-specific instruction file, or `AGENTS.md`.
+   - **One-off correction** — specific to a single past interaction, unlikely to recur. Candidate for deletion.
+3. Include learnings findings in the report (Step 8). Promoted corrections map to the "nice to have" or "should fix" tier depending on their significance.
+4. When applying approved changes:
+   - For promoted entries: add the substance to the appropriate config file, then remove the entry from `copilot-learnings.md`.
+   - For one-off entries: remove the entry from `copilot-learnings.md`.
+   - If all entries are processed: delete `copilot-learnings.md` entirely — it will be recreated naturally when the next correction occurs.
+
+If `.github/copilot-learnings.md` does not exist, skip this step.
+
+> **Learnings graduation:** Recurring corrections should graduate into durable config — a rule in `copilot-instructions.md`, a path-specific instruction, or an `AGENTS.md` entry. One-off corrections get deleted. The file stays lean until the next cycle.
+
+## Step 8: Generate findings report
 
 Present all findings grouped by category. For each finding, state what the issue is, why it matters, and what you'd change.
 
@@ -117,22 +136,24 @@ Present all findings grouped by category. For each finding, state what the issue
 - No architecture overview
 - No path-specific instruction files for a multi-subsystem project
 - No `AGENTS.md` when multiple AI tools are in use
+- Learnings entries that should be promoted to a config file (from Step 7)
 
 **Wait for user approval before making any changes.**
 
-## Step 8: Apply approved changes
+## Step 9: Apply approved changes
 
-Make only the approved changes. For each modified file, show a brief before/after summary.
+Make only the approved changes. For each modified file, show a brief before/after summary. Process any approved learnings changes as described in Step 7.
 
-## Step 9: Final summary
+## Step 10: Final summary
 
 After all changes:
 
 1. List every file modified with a one-line description of changes
 2. Report new metrics: character count, number of instruction files, etc.
 3. Compare to before (e.g., "`copilot-instructions.md`: 12 400 chars → 5 800 chars")
-4. Note anything intentionally left unchanged and why
-5. Remind the user to commit the changes
+4. If learnings were reviewed: report how many entries were promoted, how many deleted, and how many remain in `.github/copilot-learnings.md`
+5. Note anything intentionally left unchanged and why
+6. Remind the user to commit the changes
 
 ### What this skill cannot do
 
@@ -141,7 +162,7 @@ Unlike the Claude Code equivalent (`cc-optimize`), this skill cannot configure:
 - **No permissions deny/allow** — Copilot has no file-level access control
 - **No PostToolUse hooks** — no hook system for auto-formatting after edits
 - **No autocompact control** — no equivalent to `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`
-- **No `@`-import progressive disclosure** — `copilot-instructions.md` loads in full on every session
+- **No `@`-import progressive disclosure** — `copilot-instructions.md` loads in full on every session; unlike Claude Code's `CLAUDE.md`, it cannot `@`-import `copilot-learnings.md` automatically
 - **No MCP automation** — MCP servers are configured in GitHub repository settings UI, not via files
 
 ## What NOT to do
@@ -149,3 +170,9 @@ Unlike the Claude Code equivalent (`cc-optimize`), this skill cannot configure:
 - Don't modify files before getting user approval
 - Don't refactor things that work well — if a config is correct and clean, say so
 - Don't suggest MCP servers here — those are configured via the GitHub UI
+
+---
+
+Did this output meet your expectations? If not, describe what was off and Copilot will log the correction to `.github/copilot-learnings.md`.
+
+> **Note:** Unlike the Claude Code equivalent (`cc-optimize`), corrections are not auto-loaded on every session — Copilot has no `@`-import support. Run `copilot-optimize` periodically to review accumulated learnings and promote them into your configuration.

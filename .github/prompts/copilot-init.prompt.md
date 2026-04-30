@@ -48,5 +48,12 @@ Set up a GitHub Copilot Coding Agent configuration for this project.
 - Fill in TODO commands once they are known
 - Run `copilot-optimize` once the project has more content
 - Add MCP servers via GitHub repository settings (Settings → Copilot → MCP servers)
+- When Copilot makes a mistake and the user corrects it, Copilot logs a one-line summary to `.github/copilot-learnings.md` instead of modifying config files directly. Run `copilot-optimize` periodically to incorporate accumulated learnings into the configuration.
 
-**Limitations vs. Claude Code's cc-init:** No permissions deny/allow, no PostToolUse hooks, no autocompact control, no `@`-import progressive disclosure, no MCP automation via files.
+**Limitations vs. Claude Code's cc-init:** No permissions deny/allow, no PostToolUse hooks, no autocompact control, no `@`-import progressive disclosure (so `copilot-learnings.md` is not auto-loaded — `copilot-optimize` is required to apply it), no MCP automation via files.
+
+---
+
+Did this output meet your expectations? If not, describe what was off and Copilot will log the correction to `.github/copilot-learnings.md`.
+
+> **Note:** Corrections are not auto-loaded on every session. Run `copilot-optimize` periodically to review and incorporate them.

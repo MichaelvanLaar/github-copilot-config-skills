@@ -4,7 +4,7 @@ Three skills for setting up and maintaining a best-practice [GitHub Copilot Codi
 
 **`copilot-init`** bootstraps a lean configuration for a new or unconfigured project — creating `copilot-instructions.md`, path-specific instruction files, `copilot-setup-steps.yml`, and `AGENTS.md` where applicable.
 
-**`copilot-optimize`** audits and improves an existing Copilot configuration against current best practices — checking for the 8,000-character limit, anti-patterns, missing sections, and consistency between files.
+**`copilot-optimize`** audits and improves an existing Copilot configuration against current best practices — checking for the 8,000-character limit, anti-patterns, missing sections, consistency between files, and accumulated learnings.
 
 **`copilot-update`** fetches the latest versions of all installed skills from this repository — run it any time you want to pick up improvements.
 
@@ -127,14 +127,15 @@ Attach the `copilot-optimize` skill or prompt in Copilot Chat. You can optionall
 
 The skill will:
 
-1. **Inventory** all Copilot config files and take a metrics snapshot: character counts, number of path-specific instruction files, presence of `copilot-setup-steps.yml` and `AGENTS.md`.
+1. **Inventory** all Copilot config files and take a metrics snapshot: character counts, number of path-specific instruction files, presence of `copilot-setup-steps.yml`, `AGENTS.md`, and `copilot-learnings.md`.
 2. **Audit** against best practices, checking for:
    - **Must fix**: over the 8,000-character limit, invalid `applyTo` globs, wrong job name in `copilot-setup-steps.yml`, contradictions between `AGENTS.md` and `copilot-instructions.md`
    - **Should fix**: anti-patterns (personality instructions, file-by-file descriptions, linter-enforced rules), missing Commands section, missing `copilot-setup-steps.yml` when a build system is detected
    - **Nice to have**: missing architecture overview, no path-specific files for a multi-subsystem project
-3. **Present** findings grouped by severity tier before touching anything.
-4. **Wait for your approval**, then apply only the changes you approve.
-5. **Report** before/after metrics for every modified file.
+3. **Review learnings**: if `.github/copilot-learnings.md` exists, classify each entry as a recurring pattern (promote into config) or a one-off (delete), and include findings in the report.
+4. **Present** all findings grouped by severity tier before touching anything.
+5. **Wait for your approval**, then apply only the changes you approve.
+6. **Report** before/after metrics for every modified file, plus how many learnings entries were promoted, deleted, or remain.
 
 ### `copilot-update` — Keep skills current
 
@@ -155,7 +156,7 @@ Day 1:    copilot-init                   ← Bootstrap config for a new project
 Week 1:   copilot-optimize               ← First audit pass with real code context
           ... continue building ...
 
-Ongoing:  copilot-optimize               ← Periodic hygiene checks
+Ongoing:  copilot-optimize               ← Periodic hygiene checks; incorporates accumulated learnings
           copilot-optimize (length)      ← When copilot-instructions.md has grown
           copilot-update                 ← After pulling updates from this repo
 ```
@@ -164,12 +165,13 @@ Ongoing:  copilot-optimize               ← Periodic hygiene checks
 
 ### Configuration files
 
-| File                                        | Created by                | Purpose                                                                                               |
-| ------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `.github/copilot-instructions.md`           | `copilot-init`            | Global agent instructions, loaded every session (limit: ~8,000 characters)                            |
-| `.github/instructions/*.instructions.md`    | `copilot-init` (optional) | Path-specific instructions, scoped via `applyTo` glob in frontmatter                                  |
-| `.github/workflows/copilot-setup-steps.yml` | `copilot-init` (optional) | Pre-install dependencies before Copilot runs; job must be named `copilot-setup-steps`; max 59 minutes |
-| `AGENTS.md`                                 | `copilot-init` (optional) | Vendor-neutral agent instructions for multi-tool AI environments                                      |
+| File                                        | Created by                        | Purpose                                                                                                     |
+| ------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `.github/copilot-instructions.md`           | `copilot-init`                    | Global agent instructions, loaded every session (limit: ~8,000 characters)                                  |
+| `.github/instructions/*.instructions.md`    | `copilot-init` (optional)         | Path-specific instructions, scoped via `applyTo` glob in frontmatter                                        |
+| `.github/workflows/copilot-setup-steps.yml` | `copilot-init` (optional)         | Pre-install dependencies before Copilot runs; job must be named `copilot-setup-steps`; max 59 minutes       |
+| `AGENTS.md`                                 | `copilot-init` (optional)         | Vendor-neutral agent instructions for multi-tool AI environments                                            |
+| `.github/copilot-learnings.md`              | Created by Copilot on corrections | Accumulates one-line corrections from skill feedback steps; reviewed and incorporated by `copilot-optimize` |
 
 ### Key best practices applied
 
@@ -180,19 +182,21 @@ Ongoing:  copilot-optimize               ← Periodic hygiene checks
 - **Remove anti-patterns**: personality instructions ("be concise"), file-by-file descriptions, and rules that a linter already enforces all waste the character budget without adding value.
 - **Commands section**: a `## Commands` section with the project's build, test, and lint commands gives Copilot the verification loop it needs to self-check its own work.
 - **`AGENTS.md` consistency**: when both `AGENTS.md` and `copilot-instructions.md` exist, the skills check for contradictions between them.
+- **Learning and improvement**: each skill ends with a feedback step. When Copilot makes a mistake, the correction is logged as a one-line entry in `.github/copilot-learnings.md`. Running `copilot-optimize` periodically reviews these entries, promotes recurring patterns into the configuration, and deletes one-offs — keeping the learnings file lean or removing it until the next correction cycle.
 
 ## What these skills cannot configure
 
 Unlike the companion [claude-code-config-skills](https://github.com/MichaelvanLaar/claude-code-config-skills), these skills target GitHub Copilot's configuration surface. Several Claude Code features have no Copilot equivalent:
 
-| Claude Code feature                                     | Status in GitHub Copilot                                                             |
-| ------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| `permissions.deny` / `permissions.allow`                | No file-level access control                                                         |
-| PostToolUse hooks (auto-formatter)                      | No hook system                                                                       |
-| Autocompact control (`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`) | No equivalent                                                                        |
-| `@`-import progressive disclosure                       | `copilot-instructions.md` loads in full every session                                |
-| MCP server automation via files                         | MCP servers are configured in GitHub repository settings UI only                     |
-| `.claude/context/` shared domain folder                 | No equivalent; content must live in `copilot-instructions.md` or path-specific files |
+| Claude Code feature                                     | Status in GitHub Copilot                                                                                                                                                     |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `permissions.deny` / `permissions.allow`                | No file-level access control                                                                                                                                                 |
+| PostToolUse hooks (auto-formatter)                      | No hook system                                                                                                                                                               |
+| Autocompact control (`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`) | No equivalent                                                                                                                                                                |
+| `@`-import progressive disclosure                       | `copilot-instructions.md` loads in full every session                                                                                                                        |
+| Learnings auto-loading                                  | `CLAUDE.md` can reference `learnings.md` so corrections load automatically; `copilot-learnings.md` is passive — run `copilot-optimize` explicitly to incorporate corrections |
+| MCP server automation via files                         | MCP servers are configured in GitHub repository settings UI only                                                                                                             |
+| `.claude/context/` shared domain folder                 | No equivalent; content must live in `copilot-instructions.md` or path-specific files                                                                                         |
 
 ## Compatibility
 

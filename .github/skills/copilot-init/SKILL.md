@@ -134,6 +134,9 @@ After creating files, give the user a concise summary:
    - Fill in TODO command placeholders once they are known
    - Run `copilot-optimize` once the project has more content to review
    - Add MCP servers via GitHub repository settings (Settings → Copilot → MCP servers)
+5. Explain the Learnings mechanism:
+   - When Copilot makes a mistake and the user corrects it at the end of a skill run, Copilot logs a one-line summary to `.github/copilot-learnings.md` instead of modifying config files directly.
+   - Unlike the Claude Code equivalent (`cc-init`), these corrections are **not** auto-loaded into every session — Copilot has no `@`-import or dynamic file injection. Run `copilot-optimize` periodically to review accumulated learnings and promote them into the configuration.
 
 ### What this skill cannot do
 
@@ -151,3 +154,9 @@ Unlike the Claude Code equivalent (`cc-init`), this skill cannot configure:
 - Don't create stub files for unsupported features
 - Don't over-engineer — an accurate 30-line `copilot-instructions.md` beats an 80-line one full of guesses
 - Don't include information you're not confident about — `TODO:` is better than wrong instructions
+
+---
+
+Did this output meet your expectations? If not, describe what was off and Copilot will log the correction to `.github/copilot-learnings.md`.
+
+> **Note:** Unlike the Claude Code equivalent (`cc-init`), corrections are not auto-loaded on every session — Copilot has no `@`-import support. Run `copilot-optimize` periodically to review accumulated learnings and promote them into your configuration.

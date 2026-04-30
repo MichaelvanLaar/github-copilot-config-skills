@@ -15,7 +15,9 @@ Read all Copilot config files and report:
 - Whether `.github/workflows/copilot-setup-steps.yml` exists
 - Whether `AGENTS.md` exists
 
-**Step 2 — Audit findings** (group as must fix / should fix / nice to have)
+**Step 2 — Inventory** also reads `.github/copilot-learnings.md` if it exists.
+
+**Step 3 — Audit findings** (group as must fix / should fix / nice to have)
 
 Check for:
 
@@ -29,8 +31,20 @@ Check for:
 - **No architecture overview** → nice to have
 - **No path-specific instruction files** for a multi-subsystem project → nice to have
 
-**Step 3 — Wait for approval**, then apply only approved changes.
+**Step 4 — Learnings review** (if `.github/copilot-learnings.md` exists)
 
-**Step 4 — Report** before/after metrics and list every file modified.
+- Classify each entry: recurring pattern (promote to a config file) or one-off (delete).
+- Include promoted entries in the findings report under the appropriate tier.
+- When applying changes: add promoted content to config files and remove processed entries from `copilot-learnings.md`; delete the file entirely if all entries are resolved.
 
-**Limitations vs. Claude Code's cc-optimize:** No permissions deny/allow, no PostToolUse hooks, no autocompact control, no `@`-import progressive disclosure, no MCP automation via files.
+**Step 5 — Wait for approval**, then apply only approved changes (including any learnings changes).
+
+**Step 6 — Report** before/after metrics, list every file modified, and note how many learnings entries were promoted, deleted, or remain.
+
+**Limitations vs. Claude Code's cc-optimize:** No permissions deny/allow, no PostToolUse hooks, no autocompact control, no `@`-import progressive disclosure (so `copilot-learnings.md` is not auto-loaded — this skill is required to apply it), no MCP automation via files.
+
+---
+
+Did this output meet your expectations? If not, describe what was off and Copilot will log the correction to `.github/copilot-learnings.md`.
+
+> **Note:** Corrections are not auto-loaded on every session. Run `copilot-optimize` periodically to review and incorporate them.
