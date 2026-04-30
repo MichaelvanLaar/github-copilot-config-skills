@@ -1,6 +1,6 @@
 # github-copilot-config-skills
 
-Three skills for setting up and maintaining a best-practice [GitHub Copilot Coding Agent](https://docs.github.com/en/copilot/using-github-copilot/using-claude-sonnet-in-github-copilot) configuration.
+Three skills for setting up and maintaining a best-practice GitHub Copilot Coding Agent configuration.
 
 **`copilot-init`** bootstraps a lean configuration for a new or unconfigured project — creating `copilot-instructions.md`, path-specific instruction files, `copilot-setup-steps.yml`, and `AGENTS.md` where applicable.
 
@@ -19,20 +19,24 @@ All three skills are grounded in the official GitHub Copilot Coding Agent docume
 
 ## Table of Contents
 
-- [What problem do these skills solve?](#what-problem-do-these-skills-solve)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [`/copilot-init` — Bootstrap a new project](#copilot-init--bootstrap-a-new-project)
-  - [`/copilot-optimize` — Audit and improve an existing setup](#copilot-optimize--audit-and-improve-an-existing-setup)
-  - [`/copilot-update` — Keep skills current](#copilot-update--keep-skills-current)
-  - [Recommended workflow](#recommended-workflow)
-- [What the skills create and check](#what-the-skills-create-and-check)
-  - [Configuration files](#configuration-files)
-  - [Key best practices applied](#key-best-practices-applied)
-- [What these skills cannot configure](#what-these-skills-cannot-configure)
-- [Compatibility](#compatibility)
-- [Contributing](#contributing)
-- [License](#license)
+- [github-copilot-config-skills](#github-copilot-config-skills)
+  - [Table of Contents](#table-of-contents)
+  - [What problem do these skills solve?](#what-problem-do-these-skills-solve)
+  - [Installation](#installation)
+    - [Manual installation](#manual-installation)
+    - [Directory structure after installation](#directory-structure-after-installation)
+  - [Usage](#usage)
+    - [`copilot-init` — Bootstrap a new project](#copilot-init--bootstrap-a-new-project)
+    - [`copilot-optimize` — Audit and improve an existing setup](#copilot-optimize--audit-and-improve-an-existing-setup)
+    - [`copilot-update` — Keep skills current](#copilot-update--keep-skills-current)
+    - [Recommended workflow](#recommended-workflow)
+  - [What the skills create and check](#what-the-skills-create-and-check)
+    - [Configuration files](#configuration-files)
+    - [Key best practices applied](#key-best-practices-applied)
+  - [What these skills cannot configure](#what-these-skills-cannot-configure)
+  - [Compatibility](#compatibility)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## What problem do these skills solve?
 

@@ -8,9 +8,7 @@ No build steps required. This is a content repository of Markdown and YAML files
 
 ## Structure
 
-- `.claude/skills/` — Claude Code skills (SKILL.md per skill)
 - `.github/prompts/` — GitHub Copilot prompt files (mirror Claude Code skills)
-- `openspec/` — Change workflow management (proposals, specs, tasks)
 
 ## Conventions
 

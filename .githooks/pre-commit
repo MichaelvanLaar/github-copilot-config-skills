@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# Keep CLAUDE.md config file table in sync
-bash scripts/sync-config-table.sh
-
-# Prevent accidental secret commits (skipped gracefully if gitleaks is not installed)
-if command -v gitleaks > /dev/null 2>&1; then
-  gitleaks git --pre-commit --staged || exit 1
-fi
