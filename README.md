@@ -49,17 +49,15 @@ Open GitHub Copilot CLI in any project and run:
 
 That's it. GitHub Copilot CLI downloads the skills and makes `/gc-config-init` and `/gc-config-optimize` available immediately.
 
-> **Note:** Auto-update for third-party marketplaces is off by default — see [Keeping skills current](#keeping-skills-current) to enable it.
+> **Note:** Skills are not updated automatically. See [Keeping skills current](#keeping-skills-current) to update.
 
 ### Keeping skills current
 
-The plugin system checks for updates automatically on startup. For third-party marketplaces (like this one), auto-update is **off by default**. To enable it:
+Skills are not updated automatically. To update to the latest version, run:
 
-1. Run `/plugin` in GitHub Copilot CLI
-2. Go to the **Marketplaces** tab
-3. Turn on auto-update for `MichaelvanLaar/gc-config`
-
-Once enabled, GitHub Copilot CLI updates the skills on startup whenever a new version is available.
+```
+/plugin update gc-config@gc-config
+```
 
 ### Uninstalling
 
