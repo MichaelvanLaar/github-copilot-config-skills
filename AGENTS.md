@@ -1,23 +1,30 @@
-# AI Coding Assistant Skills
+# gc-config
 
-Repository of reusable skills and prompt configurations for Claude Code and GitHub Copilot.
+GitHub Copilot CLI plugin providing two skills for setting up and maintaining
+best-practice GitHub Copilot Coding Agent configurations.
+
+## Key Config Files
+
+| File                                                   | Purpose                                    |
+| ------------------------------------------------------ | ------------------------------------------ |
+| `.github/plugin/marketplace.json`                      | Copilot CLI marketplace manifest           |
+| `plugins/gc-config/plugin.json`                        | Plugin manifest                            |
+| `plugins/gc-config/skills/gc-config-init/SKILL.md`     | Skill: bootstrap GitHub Copilot config     |
+| `plugins/gc-config/skills/gc-config-optimize/SKILL.md` | Skill: audit GitHub Copilot config         |
+| `install.sh`                                           | Deprecated shim pointing to plugin install |
 
 ## Setup
 
-No build steps required. This is a content repository of Markdown and YAML files.
-
-## Structure
-
-- `.github/prompts/` — GitHub Copilot prompt files (mirror Claude Code skills)
+No build steps required. This is a content repository of Markdown and JSON files.
 
 ## Conventions
 
-- Each skill lives in its own subdirectory with a `SKILL.md` file
-- GitHub Copilot prompts in `.github/prompts/` mirror Claude Code skills in purpose and content
-- When editing a skill, update the corresponding file in `.github/prompts/`
-- `openspec/config.yaml` holds the project context shown to AI when creating artifacts — keep it current
+- Plugin manifest fields follow the Copilot CLI plugin reference spec.
+- Skill SKILL.md files use YAML frontmatter (name, description, allowed-tools, argument-hint).
+- Keep skill content aligned: both skills end with the learnings/feedback step.
+- Internal skill cross-references use `/gc-config-init` and `/gc-config-optimize`.
 
-## Safety
+## Don't
 
-- Do not commit secrets or credentials
-- Do not use `--force` git flags — fix the underlying issue instead
+- Don't commit secrets or credentials.
+- Don't use `--force` git flags — fix the underlying issue instead.
